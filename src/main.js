@@ -18,7 +18,7 @@ Vue.config.productionTip = false
 // 请求带上cookies
 axios.defaults.withCredentials = true
 // 设置默认地址
-axios.defaults.baseURL = 'http://localhost:3000/'
+axios.defaults.baseURL = 'http://weswing.cn:4000/'
 // axios 放入vue原型对象上
 
 // 请求拦截器添加token，保证拥有获取数据权限 并开启进度条 NProgress.start()

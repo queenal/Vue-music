@@ -42,7 +42,7 @@ export default {
       const { data: res1 } = await this.$request.get(`top/list?id=${19723756}`)
       const { data: res2 } = await this.$request.get(`top/list?id=${3779629}`)
       const { data: res3 } = await this.$request.get(`top/list?id=${2884035}`)
-      const { data: res4 } = await this.$request.get(`top/list?id=${3778678}`)
+      const { data: res4 } = await this.$request.get(`top/list?id=${745956260}`)
       const { data: res5 } = await this.$request.get(`top/list?id=${991319590}`)
 
       try {

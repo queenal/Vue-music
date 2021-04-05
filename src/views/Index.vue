@@ -182,25 +182,24 @@ export default {
           return this.$message.error(res.message)
         }
         this.$message.success('登录成功')
-        this.getUserInfo()
+        this.getUserInfo(res)
         this.loginDialogVisible = false
+        console.log(res)
       })
     },
     // 获取用户信息
-    async getUserInfo() {
+    async getUserInfo(res) {
       try {
-        const time = new Date().getTime()
-        const { data: res } = await this.$request.get(
-          `login/status?timestamp=${time}`
-        )
-        const { data: res1 } = await this.$request.get(
-          `user/playlist?uid=${res.profile.userId}`
+        const { data: playLists } = await this.$request.get(
+          `user/playlist?uid=${res.account.id}`
         )
         this.userInfoStatus = false
         this.userInfo = res.profile
         console.log(this.userInfo)
-        this.userMusicList = res1.playlist
-      } catch (error) {}
+        this.userMusicList = playLists.playlist
+      } catch (error) {
+        console.log('userInfo加载失败')
+      }
     },
     // 用户退出
     async userLogout() {
@@ -264,6 +263,10 @@ export default {
       window.sessionStorage.setItem('playListId', id)
       this.$router.push('playlist')
     }
+    // async getPreLoadSong() {
+    //   // const { data: res } = await this.$request.get(`top/list?id=${19723756}`)
+    //   // res.tracks[0]
+    // }
   },
   computed: {
     musicList: () => {

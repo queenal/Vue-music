@@ -1,29 +1,32 @@
 <template>
   <div class="main">
     <el-row>
-      <el-col class="left-list">
+      <el-col :span="leftSpan">
+        <router-view></router-view>
+      </el-col>
+      <el-col :span="rightSpan" class="left-list">
         <!-- 关闭、放大、缩小控制 -->
-        <div class="control">
-          <el-button type="danger" icon="el-icon-circle-close"></el-button>
-          <el-button type="warning" icon="el-icon-circle-plus-outline"></el-button>
-          <el-button type="success" icon="el-icon-remove-outline"></el-button>
-        </div>
+<!--        <div class="control">-->
+<!--          <el-button type="danger" icon="el-icon-circle-close"></el-button>-->
+<!--          <el-button type="warning" icon="el-icon-circle-plus-outline"></el-button>-->
+<!--          <el-button type="success" icon="el-icon-remove-outline"></el-button>-->
+<!--        </div>-->
         <!-- 用户信息 -->
-        <div class="login">
-          <div @click="loginDialogVisible= true" v-if="userInfoStatus">
-            <i class="el-icon-user"></i>
-            <span>未登陆</span>
-          </div>
-          <div class="userInfo" v-else>
-            <img :src="userInfo.avatarUrl" alt />
-            <span>{{userInfo.nickname}}</span>
-            <i
-              class="el-icon-caret-right"
-              style="margin-left:20px;cursor: pointer;"
-              @click="userLogout"
-            ></i>
-          </div>
-        </div>
+<!--        <div class="login">-->
+<!--          <div @click="loginDialogVisible= true" v-if="userInfoStatus">-->
+<!--            <i class="el-icon-user"></i>-->
+<!--            <span>未登陆</span>-->
+<!--          </div>-->
+<!--          <div class="userInfo" v-else>-->
+<!--            <img :src="userInfo.avatarUrl" alt />-->
+<!--            <span>{{userInfo.nickname}}</span>-->
+<!--            <i-->
+<!--              class="el-icon-caret-right"-->
+<!--              style="margin-left:20px;cursor: pointer;"-->
+<!--              @click="userLogout"-->
+<!--            ></i>-->
+<!--          </div>-->
+<!--        </div>-->
         <!-- 左侧菜单选项 -->
         <el-menu
           :default-active="activePath"
@@ -31,6 +34,7 @@
           text-color="rgba(0,0,0,.8)"
           active-text-color="green"
           :router="true"
+          :collapse="collapseState"
         >
           <el-menu-item index="music" key="1">
             <i class="el-icon-headset"></i>
@@ -68,9 +72,6 @@
             </template>
           </el-submenu>
         </el-menu>
-      </el-col>
-      <el-col class="right-box">
-        <router-view></router-view>
       </el-col>
       <!-- 播放器 -->
       <div class="player-box">
@@ -120,6 +121,7 @@
 
 <script>
 import aplayer from 'vue-aplayer'
+import { mapGetters } from 'vuex'
 export default {
   data() {
     // 手机号校验
@@ -153,7 +155,9 @@ export default {
       isShowLrc: false,
       firstplayIndex: -1,
       activePath: 'music',
-      userMusicList: []
+      userMusicList: [],
+      leftSpan: 19,
+      rightSpan: 5
     }
   },
   components: {
@@ -276,7 +280,9 @@ export default {
       } else {
         return []
       }
-    }
+    },
+    ...mapGetters('setting', [
+      'collapseState'])
   },
   mounted() {
     this.$store.commit('controlMusic', this.$refs.musicRef)
@@ -289,6 +295,15 @@ export default {
         this.activePath = 'collection'
       } else if (to.path.replace('/', '') === 'music') {
         this.activePath = 'music'
+      }
+    },
+    collapseState (isCollapse) {
+      if (isCollapse) {
+        this.leftSpan = 24
+        this.rightSpan = 0
+      } else {
+        this.leftSpan = 19
+        this.rightSpan = 5
       }
     }
   },
@@ -322,7 +337,7 @@ export default {
   .el-menu {
     height: 420px;
     overflow: hidden scroll;
-    width: 215px;
+    //width: 215px;
   }
   .player-box {
     width: 100%;
@@ -338,14 +353,14 @@ export default {
       color: red;
       cursor: pointer;
     }
-    .el-icon-caret-left {
-      left: 50%;
-      margin-left: -80px;
-    }
-    .el-icon-caret-right {
-      right: 50%;
-      margin-right: -85px;
-    }
+    //.el-icon-caret-left {
+    //  left: 50%;
+    //  margin-left: -80px;
+    //}
+    //.el-icon-caret-right {
+    //  right: 50%;
+    //  margin-right: -85px;
+    //}
     .aplayer {
       margin: 0 !important;
     }
@@ -355,14 +370,14 @@ export default {
   }
   .right-box {
     height: 540px;
-    width: 800px;
+    //width: 800px;
   }
   .left-list {
     background: #ededed;
     height: 540px;
-    width: 200px;
-    position: relative;
+    //width: 200px;
     overflow: hidden;
+    margin-top: 50px;
     .login {
       height: 70px;
       display: flex;

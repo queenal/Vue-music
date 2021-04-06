@@ -3,6 +3,14 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
+const modules = {}
+const path = require('path')
+const files = require.context('./modules', false, /\.js$/)
+files.keys().forEach(key => {
+  const name = path.basename(key, '.js')
+  modules[name] = files(key).default || files(key)
+})
+
 export default new Vuex.Store({
   state: {
     playMusic: {
@@ -74,6 +82,5 @@ export default new Vuex.Store({
       context.commit('setPlayMusic', obj)
     }
   },
-  modules: {
-  }
+  modules: modules
 })

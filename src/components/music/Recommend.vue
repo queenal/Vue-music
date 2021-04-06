@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="recommend">
     <div class="home-header">推荐歌单</div>
     <el-row :gutter="16" style="padding:0 10px;">
       <el-col :span="6">
@@ -57,6 +57,9 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+.recommend{
+  margin-top: 25px;
+}
 .el-card {
   height: 160px;
   border-radius: 8px;

@@ -1,7 +1,8 @@
 <template>
   <div>
+<!--    个性推荐模块-->
     <div class="swiper">
-      <el-carousel :interval="4000" type="card" height="160px">
+      <el-carousel :interval="4000" height="210px">
         <el-carousel-item v-for="(item, i) in swiperData" :key="i">
           <img :src="item.pic" alt @click="getMusicUrl(item.song)" />
         </el-carousel-item>
@@ -69,7 +70,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .swiper {
-  height: 190px;
+  height: 210px;
   width: 98%;
   border-radius: 10px;
   margin: 0 auto;

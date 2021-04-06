@@ -15,15 +15,32 @@
       </el-tab-pane>
     </el-tabs>
     <!-- 搜索框 -->
-    <div class="search">
-      <input
-        type="text"
-        class="input-search"
-        @focus="searchGuide"
-        v-model="searchValue"
-        @keyup.enter="searchEvent"
-      />
-      <i class="el-icon-search" @click="searchEvent"></i>
+    <div class="operate">
+      <div class="search">
+        <label>
+          <input
+              type="text"
+              class="input-search"
+              @focus="searchGuide"
+              v-model="searchValue"
+              @keyup.enter="searchEvent"
+          />
+        </label>
+        <i class="el-icon-search" @click="searchEvent"></i>
+        <el-button @click="fold">
+          <i class="el-icon-s-fold"></i>
+        </el-button>
+      </div>
+<!--      <el-dropdown split-button="true">-->
+<!--        <span class="el-dropdown-link">-->
+<!--        下拉菜单<i class="el-icon-arrow-down el-icon&#45;&#45;right"></i>-->
+<!--        </span>-->
+<!--        <el-dropdown-menu slot="dropdown">-->
+<!--          <el-dropdown-item >黄金糕</el-dropdown-item>-->
+<!--          <el-dropdown-item >狮子头</el-dropdown-item>-->
+<!--          <el-dropdown-item >螺蛳粉</el-dropdown-item>-->
+<!--        </el-dropdown-menu>-->
+<!--      </el-dropdown>-->
     </div>
     <!-- 搜索向导 -->
     <div class="search-guide" v-show="searchOpenclose">
@@ -60,6 +77,7 @@ import Home from './home/Home.vue'
 import rankList from './list/Ranking.vue'
 import songsRank from './songs/Rank.vue'
 import NewMusic from './newmusic/Main.vue'
+// import { mapMutations } from 'vuex'
 
 export default {
   data() {
@@ -77,6 +95,10 @@ export default {
     'm-home': Home
   },
   methods: {
+    // ...mapMutations('setting', ['sendCollapse']),
+    fold() {
+      this.$store.commit('setting/sendCollapse')
+    },
     handleClick(tab, event) {
       this.$store.commit('changeMainIndex', tab.name)
       if (tab.name === 'fourth') {
@@ -161,18 +183,31 @@ export default {
 .el-tabs__header {
   background: #f4f4f4;
 }
-.search {
+.operate{
+  background: #f4f4f4;
   position: absolute;
-  width: 200px;
+  width: 250px;
   right: 0;
   top: 0;
-  height: 36px;
-  .el-icon-search {
-    font-size: 18px;
+  height: 38px;
+  border-bottom:2px solid #E4E7ED;
+  .search {
+    //background: #f4f4f4;
     position: absolute;
-    right: 30px;
-    top: 10px;
-    cursor: pointer;
+    width: 100px;
+    right: 100px;
+    //top: 0;
+    //height: 36px;
+    .el-icon-search {
+      font-size: 18px;
+      position: absolute;
+      right: 30px;
+      top: 10px;
+      cursor: pointer;
+    }
+  }
+  .el-button{
+    margin-left: 95px;
   }
 }
 .input-search {

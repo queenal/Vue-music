@@ -1,15 +1,15 @@
 <template>
   <div class="main">
-    <div class="new-header">
-      <div class="new-header-select">
-        <span
-          v-for=" (item,i) in headerSelect"
-          :key="i"
-          :class="selectIndex === i ? 'select' : ''"
-          @click="selectchange(i)"
-        >{{item}}</span>
-      </div>
-    </div>
+<!--    <div class="new-header">-->
+<!--      <div class="new-header-select">-->
+<!--        <span-->
+<!--          v-for=" (item,i) in headerSelect"-->
+<!--          :key="i"-->
+<!--          :class="selectIndex === i ? 'select' : ''"-->
+<!--          @click="selectchange(i)"-->
+<!--        >{{item}}</span>-->
+<!--      </div>-->
+<!--    </div>-->
 
     <div :is="Components"></div>
   </div>

@@ -13,6 +13,9 @@
       <el-tab-pane label="最新歌曲" name="fifth">
         <div :is="NewMusicComponents"></div>
       </el-tab-pane>
+      <el-tab-pane label="随心听" name="six">
+        <heart-music></heart-music>
+      </el-tab-pane>
     </el-tabs>
     <!-- 搜索框 -->
     <div class="operate">
@@ -31,16 +34,6 @@
           <i class="el-icon-s-fold"></i>
         </el-button>
       </div>
-<!--      <el-dropdown split-button="true">-->
-<!--        <span class="el-dropdown-link">-->
-<!--        下拉菜单<i class="el-icon-arrow-down el-icon&#45;&#45;right"></i>-->
-<!--        </span>-->
-<!--        <el-dropdown-menu slot="dropdown">-->
-<!--          <el-dropdown-item >黄金糕</el-dropdown-item>-->
-<!--          <el-dropdown-item >狮子头</el-dropdown-item>-->
-<!--          <el-dropdown-item >螺蛳粉</el-dropdown-item>-->
-<!--        </el-dropdown-menu>-->
-<!--      </el-dropdown>-->
     </div>
     <!-- 搜索向导 -->
     <div class="search-guide" v-show="searchOpenclose">
@@ -77,6 +70,7 @@ import Home from './home/Home.vue'
 import rankList from './list/Ranking.vue'
 import songsRank from './songs/Rank.vue'
 import NewMusic from './newmusic/Main.vue'
+import HeartMusic from './heartmusic/HeartMusic'
 // import { mapMutations } from 'vuex'
 
 export default {
@@ -92,7 +86,8 @@ export default {
   },
   components: {
     'm-ranklist': rankList,
-    'm-home': Home
+    'm-home': Home,
+    'heart-music': HeartMusic
   },
   methods: {
     // ...mapMutations('setting', ['sendCollapse']),
@@ -195,7 +190,7 @@ export default {
     //background: #f4f4f4;
     position: absolute;
     width: 100px;
-    right: 100px;
+    right: 50px;
     //top: 0;
     //height: 36px;
     .el-icon-search {

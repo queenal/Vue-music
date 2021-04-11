@@ -59,8 +59,9 @@ export default {
     // 获取歌曲列表
     async getPlayList() {
       const id = window.sessionStorage.getItem('rankListId')
-      const { data: res } = await this.$request.get(`playlist/detail?id=${id}`)
+      const { data: res } = await this.$request.get(`/playlist/detail?id=${id}`)
       // 获取发布者信息部分
+      console.log(res)
       const userData = {
         pic: res.playlist.coverImgUrl,
         name: res.playlist.name,

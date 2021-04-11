@@ -58,8 +58,8 @@ export default {
     // 获取排行榜歌曲
     dealRankMsg(item) {
       const obj = {}
-      // obj.name = item.name
-      // obj.id = item.id
+      obj.name = item.name
+      obj.id = item.id
       obj.img = item.coverImgUrl
       obj.musiclist = []
       item.tracks.slice(0, 5).forEach(item => {
@@ -75,6 +75,7 @@ export default {
       })
       obj.time = item.updateTime
       this.ranklist.push(obj)
+      // console.log(this.ranklist)
     },
     // 跳转排行榜分类列表
     linkList(id) {

@@ -2,18 +2,6 @@
   <div class="recommend">
     <div class="home-header">推荐歌单</div>
     <el-row :gutter="16" style="padding:0 10px;">
-      <el-col :span="6">
-        <el-card shadow="never">
-          <img
-            src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3167851396,2438977824&fm=26&gp=0.jpg"
-            @click="getSongList"
-          />
-          <i class="el-icon-video-play video-play-hover"></i>
-        </el-card>
-        <div class="recommend-name">
-          <span @click="getSongList">每日歌曲推荐</span>
-        </div>
-      </el-col>
       <el-col :span="6" v-for="(item,i) in recommendData" :key="i">
         <el-card shadow="never">
           <img :src="item.picUrl" @click="getPlayList(item.id)" />
@@ -40,7 +28,7 @@ export default {
   },
   methods: {
     async getRecommendData() {
-      const { data: res } = await this.$request.get('/personalized?limit=7')
+      const { data: res } = await this.$request.get('/personalized?limit=8')
       this.recommendData = res.result
     },
     getSongList() {

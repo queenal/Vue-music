@@ -150,7 +150,7 @@ export default {
     color: #000;
   }
   .select {
-    color: red !important;
+    color: #E6007A !important;
     background: rgba(255, 0, 0, 0.05);
     border-radius: 10px;
   }

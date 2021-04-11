@@ -1,27 +1,20 @@
 <template>
   <div>
-    <div class="new-list">
-      <ul class="new-header-list">
-        <li
-          v-for="(item,i) in typeList"
-          :key="i"
-          :class="listIndex === i ? 'select' : ''"
-          @click="listchange(i)"
-        >{{item.name}}</li>
-      </ul>
-      <el-button class="im-play" size="mini" @click="playMusicAtonce(musiclist)">立即播放</el-button>
+    <div>
+      <el-input v-model="moodWord" placeholder="请输入你此刻心情" style="display: inline-block;width: 200px;margin-right: 20px">
+      </el-input>
+      <el-button @click="getMusicList">查询</el-button>
     </div>
     <div
-      class="main-song-list"
-      style="height:360px;overflow:hidden scroll;width:790px"
-      :style="{width: activeWidth}"
-      @scroll="listenScroll"
+        class="main-song-list"
+        style="height:360px;overflow:hidden scroll;width:790px"
     >
       <el-table
-        :data="musiclist"
-        :stripe="true"
-        @row-click="getMusicUrl"
-        :show-header="false"
+          :data="selectedMusic"
+          style="width: 100%;"
+          :stripe="true"
+          @row-click="getMusicUrl"
+          :show-header="false"
       >
         <el-table-column type="index" width="60px"></el-table-column>
         <el-table-column prop="name" label="音乐标题">
@@ -52,29 +45,27 @@
 export default {
   data() {
     return {
+      moodWord: '',
+      selectedMusic: [],
+      testMusic: [],
       listIndex: 0,
-      typeList: [
-        { name: '全部', type: 0 },
-        { name: '华语', type: 7 },
-        { name: '欧美', type: 96 },
-        { name: '日本', type: 8 },
-        { name: '韩国', type: 16 }
-      ],
+      // typeList: [
+      //   { name: '全部', type: 0 },
+      //   { name: '华语', type: 7 },
+      //   { name: '欧美', type: 96 },
+      //   { name: '日本', type: 8 },
+      //   { name: '韩国', type: 16 }
+      // ],
       musiclist: [],
       musicdata: [],
       queryNum: 10,
-      scrollStatus: false,
-      activeWidth: 1000
+      scrollStatus: false
     }
   },
   methods: {
-    listchange(item) {
-      this.listIndex = item
-      this.getMusicList(this.typeList[item].type)
-      document.querySelector('.main-song-list').scrollTo(0, 0)
-    },
     async getMusicList() {
-      const type = arguments[0] === undefined ? 0 : arguments[0]
+      this.selectedMusic = []
+      const type = 0
       const { data: res } = await this.$request.get(`/top/song?type=${type}`)
       const arrData = []
       res.data.forEach(item => {
@@ -87,20 +78,39 @@ export default {
         })
         arr.id = item.id
         arr.time =
-          Math.floor((item.duration % 3600000) / 60000) > 10
-            ? Math.floor((item.duration % 3600000) / 60000)
-            : '0' + Math.floor((item.duration % 3600000) / 60000)
+            Math.floor((item.duration % 3600000) / 60000) > 10
+              ? Math.floor((item.duration % 3600000) / 60000)
+              : '0' + Math.floor((item.duration % 3600000) / 60000)
         arr.time +=
-          ':' +
-          (Math.floor((item.duration % 60000) / 1000) > 10
-            ? Math.floor((item.duration % 60000) / 1000)
-            : '0' + Math.floor((item.duration % 60000) / 1000))
+            ':' +
+            (Math.floor((item.duration % 60000) / 1000) > 10
+              ? Math.floor((item.duration % 60000) / 1000)
+              : '0' + Math.floor((item.duration % 60000) / 1000))
         arr.album = item.album.name
         arrData.push(arr)
       })
-      console.log(arrData)
       this.musicdata = arrData
-      this.musiclist = this.getArrayData(arrData, 1, 10)
+      this.musiclist = this.getArrayData(arrData, 1, 250)
+      console.log(this.musiclist)
+      // const moodWord = this.moodWord
+      console.log(this.moodWord)
+      // this.testMusic = await this.$request.get(`/search/multimatch?keywords = ${moodWord}`)
+      // console.log(this.testMusic)
+      await this.getSelectedMusic()
+    },
+    async getSelectedMusic() {
+      const lyric = []
+      for (let i = 0; i < this.musiclist.length; i++) {
+        lyric[i] = await this.$request.get(`/lyric?id=${this.musiclist[i].id}`)
+        // console.log(lyric[i])
+        // console.log(lyric[i].data.lrc.lyric)
+        // console.log(lyric[i].data.lrc.lyric.search(this.moodWord))
+        if (lyric[i].data.lrc.lyric.search(this.moodWord) !== -1) {
+          console.log(lyric[i].data.lrc.lyric)
+          this.selectedMusic.push(this.musiclist[i])
+        }
+      }
+      console.log(this.selectedMusic)
     },
     // 获取音乐播放地址
     async getMusicUrl(obj) {
@@ -120,34 +130,31 @@ export default {
     getArrayData(data, start, num) {
       const res = []
       const length =
-        start + num - 1 > data.length ? data.length : start + num - 1
+          start + num - 1 > data.length ? data.length : start + num - 1
       for (var i = start - 1; i < length; i++) {
         res.push(data[i])
       }
       return res
-    },
-    listenScroll(e) {
-      const scroll = (
-        e.target.scrollTop /
-        (e.target.scrollHeight - e.target.clientHeight)
-      ).toFixed(3)
-      if (scroll > 0.95 && !this.scrollStatus) {
-        this.scrollStatus = true
-        setTimeout(() => {
-          if (this.queryNum < 100) {
-            this.queryNum += 10
-            this.musiclist = this.getArrayData(this.musicdata, 1, this.queryNum)
-            setTimeout(() => {
-              e.target.scrollTo(0, (this.queryNum - 10) * 75 - e.target.clientHeight)
-              this.scrollStatus = false
-            }, 10)
-          }
-        }, 1500)
-      }
     }
-  },
-  created() {
-    this.getMusicList()
+    // listenScroll(e) {
+    //   const scroll = (
+    //     e.target.scrollTop /
+    //     (e.target.scrollHeight - e.target.clientHeight)
+    //   ).toFixed(3)
+    //   if (scroll > 0.95 && !this.scrollStatus) {
+    //     this.scrollStatus = true
+    //     setTimeout(() => {
+    //       if (this.queryNum < 100) {
+    //         this.queryNum += 10
+    //         this.musiclist = this.getArrayData(this.musicdata, 1, this.queryNum)
+    //         setTimeout(() => {
+    //           e.target.scrollTo(0, (this.queryNum - 10) * 75 - e.target.clientHeight)
+    //           this.scrollStatus = false
+    //         }, 10)
+    //       }
+    //     }, 1500)
+    //   }
+    // }
   }
 }
 </script>
@@ -199,10 +206,6 @@ export default {
     right: 20px;
     border-radius: 20px;
     top: 5px;
-  }
-  .el-button:focus, .el-button:hover{
-    background: #E6007A;
-    color: #FFFFFF;
   }
 }
 </style>

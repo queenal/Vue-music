@@ -35,32 +35,31 @@ export default {
   methods: {
     async getSwiperData() {
       const { data: res } = await this.$request.get('banner?type=1')
-      this.swiperData = res.banners
+      // this.swiperData = res.banners
+      for (let i = 0; i < res.banners.length; i++) {
+        if (res.banners[i].song !== null) {
+          this.swiperData.push(res.banners[i])
+        }
+      }
+      console.log(this.swiperData)
     },
     // 获取音乐播放地址
     async getMusicUrl(obj) {
-      if (obj !== null) {
-        const { data: res } = await this.$request.get(`/song/url?id=${obj.id}`)
-        let music = {}
-        music = {
-          title: obj.name,
-          artist: [],
-          src: res.data[0].url,
-          pic: obj.al.picUrl,
-          id: obj.id
-        }
-        obj.ar.forEach(item => {
-          music.artist.push(item.name)
-        })
-        music.artist = music.artist.join(' ')
-        window.sessionStorage.setItem('nowMusic', JSON.stringify(music))
-        this.$store.dispatch('dealAutoPlay', music)
-      } else {
-        this.$message({
-          message: '点我没用,我没有数据!!!',
-          type: 'warning'
-        })
+      const { data: res } = await this.$request.get(`/song/url?id=${obj.id}`)
+      let music = {}
+      music = {
+        title: obj.name,
+        artist: [],
+        src: res.data[0].url,
+        pic: obj.al.picUrl,
+        id: obj.id
       }
+      obj.ar.forEach(item => {
+        music.artist.push(item.name)
+      })
+      music.artist = music.artist.join(' ')
+      window.sessionStorage.setItem('nowMusic', JSON.stringify(music))
+      this.$store.dispatch('dealAutoPlay', music)
     }
   },
   created() {

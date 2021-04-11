@@ -153,11 +153,11 @@ export default {
   align-items: center;
 }
 .main-nav .main-tt-name span {
-  border: 2px solid red;
+  border: 2px solid #E6007A;
   font-weight: 600;
   margin-right: 10px;
   border-radius: 4px;
-  color: red;
+  color: #E6007A;
   padding: 0px 10px;
   font-size: 12px;
   display: inline-block;

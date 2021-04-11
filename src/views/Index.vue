@@ -12,21 +12,21 @@
 <!--          <el-button type="success" icon="el-icon-remove-outline"></el-button>-->
 <!--        </div>-->
         <!-- 用户信息 -->
-<!--        <div class="login">-->
-<!--          <div @click="loginDialogVisible= true" v-if="userInfoStatus">-->
-<!--            <i class="el-icon-user"></i>-->
-<!--            <span>未登陆</span>-->
-<!--          </div>-->
-<!--          <div class="userInfo" v-else>-->
-<!--            <img :src="userInfo.avatarUrl" alt />-->
-<!--            <span>{{userInfo.nickname}}</span>-->
-<!--            <i-->
-<!--              class="el-icon-caret-right"-->
-<!--              style="margin-left:20px;cursor: pointer;"-->
-<!--              @click="userLogout"-->
-<!--            ></i>-->
-<!--          </div>-->
-<!--        </div>-->
+        <div class="login">
+          <div @click="loginDialogVisible= true" v-if="userInfoStatus">
+            <i class="el-icon-user"></i>
+            <span v-show="toolText">未登陆</span>
+          </div>
+          <div class="userInfo" v-else>
+            <img :src="userInfo.avatarUrl" alt />
+            <span>{{userInfo.nickname}}</span>
+            <i
+              class="el-icon-caret-right"
+              style="margin-left:20px;cursor: pointer;"
+              @click="userLogout"
+            ></i>
+          </div>
+        </div>
         <!-- 左侧菜单选项 -->
         <el-menu
           :default-active="activePath"
@@ -35,18 +35,20 @@
           active-text-color="green"
           :router="true"
           :collapse="collapseState"
+          class="user-menu"
         >
           <el-menu-item index="music" key="1">
             <i class="el-icon-headset"></i>
             <span slot="title">发现音乐</span>
           </el-menu-item>
-          <el-row class="left-litle-tt">我的音乐</el-row>
-          <el-menu-item index="collection">
-            <i class="el-icon-star-on"></i>
-            <span slot="title">我的收藏</span>
-          </el-menu-item>
+<!--          <el-row class="left-litle-tt">我的音乐</el-row>-->
+<!--          <el-menu-item index="collection">-->
+<!--            <i class="el-icon-star-on"></i>-->
+<!--            <span slot="title">我的收藏</span>-->
+<!--          </el-menu-item>-->
           <el-submenu index="1" class="music-list">
             <template slot="title">
+              <i class="el-icon-s-data"></i>
               <span>创建的歌单</span>
             </template>
             <template v-for="(item, i) in userMusicList">
@@ -60,6 +62,7 @@
           </el-submenu>
           <el-submenu index="2" class="music-list">
             <template slot="title">
+              <i class="el-icon-menu"></i>
               <span>收藏的歌单</span>
             </template>
             <template v-for="(item, i) in userMusicList">
@@ -157,7 +160,8 @@ export default {
       activePath: 'music',
       userMusicList: [],
       leftSpan: 19,
-      rightSpan: 5
+      rightSpan: 5,
+      toolText: true
     }
   },
   components: {
@@ -299,11 +303,12 @@ export default {
     },
     collapseState (isCollapse) {
       if (isCollapse) {
-        this.leftSpan = 24
-        this.rightSpan = 0
+        this.leftSpan = 22
+        this.rightSpan = 2
       } else {
         this.leftSpan = 19
         this.rightSpan = 5
+        this.toolText = false
       }
     }
   },
@@ -350,7 +355,7 @@ export default {
       position: absolute;
       font-size: 30px;
       top: 20px;
-      color: red;
+      color: #E6007A;
       cursor: pointer;
     }
     //.el-icon-caret-left {
@@ -377,7 +382,10 @@ export default {
     height: 540px;
     //width: 200px;
     overflow: hidden;
-    margin-top: 50px;
+    margin-top: 53px;
+    .el-scrollbar__wrap {
+      overflow-y: hidden;
+    }
     .login {
       height: 70px;
       display: flex;
@@ -419,6 +427,9 @@ export default {
       height: 28px !important;
     }
   }
+  .user-menu{
+    overflow: hidden;
+  }
   .control {
     height: 40px;
     line-height: 30px;
@@ -452,8 +463,8 @@ export default {
   border-radius: 2px;
 }
 .lrcdisplay {
-  color: red !important;
-  border-color: red;
+  color: #E6007A !important;
+  border-color: #E6007A;
 }
 .lrcToggle:hover {
   color: #000;

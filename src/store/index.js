@@ -14,9 +14,9 @@ files.keys().forEach(key => {
 export default new Vuex.Store({
   state: {
     playMusic: {
-      name: '',
-      artist: '',
-      url: ''
+      title: '雨后',
+      artist: '张雪飞',
+      url: 'http://m801.music.126.net/20210419094459/bb84974b73d964996f9d2b2a66ebae03/jdymusic/obj/wo3DlMOGwrbDjj7DisKw/8328598826/abf5/2def/109c/cfce4079dca140ea11bf0c9d73f70e9b.mp3'
     },
     controlMsc: {},
     mainIndex: 'first',
@@ -30,6 +30,7 @@ export default new Vuex.Store({
     },
     // 设置当前播放
     setPlayMusic(state, obj) {
+      console.log(obj)
       state.playMusic = obj
       if (JSON.parse(window.sessionStorage.getItem('musiclist')) !== null) {
         const id = state.controlMsc.musicList.findIndex(item => obj.id === item.id)

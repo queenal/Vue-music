@@ -12,6 +12,7 @@ import axios from 'axios'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 
+// axios 放入vue原型对象上
 Vue.prototype.$request = axios
 
 Vue.config.productionTip = false
@@ -19,7 +20,6 @@ Vue.config.productionTip = false
 axios.defaults.withCredentials = true
 // 设置默认地址
 axios.defaults.baseURL = 'http://weswing.cn:4000/'
-// axios 放入vue原型对象上
 
 // 请求拦截器添加token，保证拥有获取数据权限 并开启进度条 NProgress.start()
 axios.interceptors.request.use(config => {

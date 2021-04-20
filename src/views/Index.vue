@@ -5,17 +5,11 @@
         <router-view></router-view>
       </el-col>
       <el-col :span="rightSpan" class="left-list">
-        <!-- 关闭、放大、缩小控制 -->
-<!--        <div class="control">-->
-<!--          <el-button type="danger" icon="el-icon-circle-close"></el-button>-->
-<!--          <el-button type="warning" icon="el-icon-circle-plus-outline"></el-button>-->
-<!--          <el-button type="success" icon="el-icon-remove-outline"></el-button>-->
-<!--        </div>-->
         <!-- 用户信息 -->
         <div class="login">
           <div @click="loginDialogVisible= true" v-if="userInfoStatus">
             <i class="el-icon-user"></i>
-            <span v-show="toolText">未登陆</span>
+            <span>未登录</span>
           </div>
           <div class="userInfo" v-else>
             <img :src="userInfo.avatarUrl" alt />
@@ -41,11 +35,6 @@
             <i class="el-icon-headset"></i>
             <span slot="title">发现音乐</span>
           </el-menu-item>
-<!--          <el-row class="left-litle-tt">我的音乐</el-row>-->
-<!--          <el-menu-item index="collection">-->
-<!--            <i class="el-icon-star-on"></i>-->
-<!--            <span slot="title">我的收藏</span>-->
-<!--          </el-menu-item>-->
           <el-submenu index="1" class="music-list">
             <template slot="title">
               <i class="el-icon-s-data"></i>
@@ -103,7 +92,7 @@
     <el-dialog
       title="手机登录"
       :visible.sync="loginDialogVisible"
-      width="300px"
+      width="350px"
       @close="loginDialogClose"
     >
       <el-form :model="loginForm" status-icon :rules="loginRules" ref="loginRef" label-width="60px">
@@ -116,7 +105,7 @@
       </el-form>
       <span slot="footer">
         <el-button @click="loginDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="saveLoginInfo()">确 定</el-button>
+        <el-button type="primary" @click="saveLoginInfo()" >确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -160,8 +149,7 @@ export default {
       activePath: 'music',
       userMusicList: [],
       leftSpan: 19,
-      rightSpan: 5,
-      toolText: true
+      rightSpan: 5
     }
   },
   components: {
@@ -270,11 +258,11 @@ export default {
       this.$store.commit('setPlaylistId', id)
       window.sessionStorage.setItem('playListId', id)
       this.$router.push('playlist')
+    },
+    async getPreLoadSong() {
+      // const { data: res } = await this.$request.get(`top/list?id=${19723756}`)
+      // res.tracks[0]
     }
-    // async getPreLoadSong() {
-    //   // const { data: res } = await this.$request.get(`top/list?id=${19723756}`)
-    //   // res.tracks[0]
-    // }
   },
   computed: {
     musicList: () => {
@@ -303,8 +291,8 @@ export default {
     },
     collapseState (isCollapse) {
       if (isCollapse) {
-        this.leftSpan = 22
-        this.rightSpan = 2
+        this.leftSpan = 24
+        this.rightSpan = 0
       } else {
         this.leftSpan = 19
         this.rightSpan = 5
@@ -445,6 +433,25 @@ export default {
     padding: 0;
   }
 }
+//.login-box{
+//  .el-input{
+//    //border: 0;
+//    display: block;
+//    //margin: 20px auto;
+//    text-align: center;
+//    border: 2px solid #333;
+//    //padding: 14px 10px;
+//    width: 200px;
+//    //outline: none;
+//    color: white;
+//    border-radius: 24px;
+//    transition: 0.25s;
+//  }
+//  ::v-deep.el-input__inner {
+//    border: 0;
+//    background: none;
+//  }
+//}
 .lrcToggle {
   border: 1px solid #333;
   font-style: normal;

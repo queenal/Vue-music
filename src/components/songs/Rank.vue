@@ -63,8 +63,7 @@ export default {
         { name: '华语', value: 7 },
         { name: '欧美', value: 96 },
         { name: '日本', value: 8 },
-        { name: '韩国', value: 16 },
-        { name: 'dealRankMsg(item) {', value: 0 }
+        { name: '韩国', value: 16 }
       ],
       typeSongs: ['全部', '男歌手', '女歌手', '乐队组合'],
       selectArr: [0, 0, 0],
@@ -126,8 +125,7 @@ export default {
 .songs-type {
   height: 26px !important;
   font-size: 13px;
-  margin: 0;
-  margin-left: 20px;
+  margin: 0 0 0 20px;
   span {
     float: left;
     margin-right: 10px;

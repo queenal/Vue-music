@@ -5,7 +5,7 @@ import store from './store'
 // import './plugins/element.js'
 import './common.js'
 // import 'element-ui/lib/theme-chalk/index.css'
-import './assets/css/global.css'
+import '../assets/css/global.css'
 import axios from 'axios'
 // NProgress拦截器 导入
 import NProgress from 'nprogress'
